@@ -1,7 +1,11 @@
 package com.example.challengechapter7kelompok3
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -30,7 +34,7 @@ class MainActivity : AppCompatActivity()  {
     private lateinit var bindingAppBarMain : AppBarMainBinding
     private lateinit var viewModel: MainViewModel
 
-    @SuppressLint("ResourceType")
+ @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -112,5 +116,6 @@ class MainActivity : AppCompatActivity()  {
     private fun setupComponent() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(MainViewModel::class.java)
     }
+
 }
 

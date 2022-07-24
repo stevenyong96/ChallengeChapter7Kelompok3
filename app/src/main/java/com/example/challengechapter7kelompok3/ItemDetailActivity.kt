@@ -1,7 +1,11 @@
 package com.example.challengechapter7kelompok3
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.media.AudioAttributes
+import android.media.AudioManager
+import android.media.SoundPool
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +27,15 @@ fun concat(s1: String, s2: String): String {
 }
 
 class ItemDetailActivity : AppCompatActivity(){
-    lateinit var binding: ActivityItemDetailBinding
     private lateinit var viewModel: ItemDetailViewModel
     var dataBase : CartDatabase? = null
+
+    //soundpool
+    private lateinit var binding : ActivityItemDetailBinding
+    private val MAX_STREAMS = 1
+    private lateinit var soundPool: SoundPool
+    private var loaded = false
+    private var soundId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +44,21 @@ class ItemDetailActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         dataBase = CartDatabase.getInstance(this)
+
+        val audioAttributes = AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_GAME) // untuk merubah volume yang di gunakan pada soundpool, bisa alarm, ringtone atau media
+            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION) // merubah cara suara berinteraksi dan mengelompokkan
+            .build()
+
+        soundPool = SoundPool.Builder()
+            .setAudioAttributes(audioAttributes)
+            .build()
+
+        soundPool.setOnLoadCompleteListener { soundPool, i, i2 ->
+            loaded = true // listen event saat suara sudah di load
+        }
+
+        soundId = soundPool.load(this, R.raw.sound2, 1)
 
         setupComponent()
 
@@ -82,6 +107,16 @@ class ItemDetailActivity : AppCompatActivity(){
                     }
                 }
             }
+            val serviceSystemManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+            val actualVolume = serviceSystemManager.getStreamVolume(AudioManager.STREAM_MUSIC).toFloat()
+            val maxVolume = serviceSystemManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC).toFloat()
+            val volume = actualVolume / maxVolume
+
+            if(loaded)
+                soundPool.play(soundId, volume, volume, 1,0, 1f)
+            else
+                Toast.makeText(this, "Soundpool belum di load", Toast.LENGTH_SHORT).show()
+
         }
     }
 
