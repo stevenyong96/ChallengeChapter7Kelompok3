@@ -1,0 +1,32 @@
+[
+{
+ "username" : "rizki",
+ "password" : "rizki",
+ "nama": "rizki binar",
+ "email" :"rizki@binar.com"
+},
+{
+ "username" : "steven",
+ "password" : "steven",
+ "nama": "steven yong",
+ "email" :"steven.yong@outlook.com"
+},
+{
+ "username" : "ega",
+ "password" : "ega",
+ "nama": "Inggrid Putri Omega Tamboen",
+ "email" :"ega@binar.com"
+},
+{
+ "username" : "riyan",
+ "password" : "riyan",
+ "nama": "Riyan Saputra",
+ "email" :"riyan@binar.com"
+},
+{
+ "username" : "zulihram",
+ "password" : "zulihram",
+ "nama": "Zulihram Dhani",
+ "email" :"zulihram@binar.com"
+}
+]
