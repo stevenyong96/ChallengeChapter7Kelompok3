@@ -25,19 +25,22 @@ class LoginActivity  : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        dataBase = UserDatabase.getInstance(this)
+
 
         setupComponent()
 
-        //instance of database
-        val userDatabase = UserDatabase.getInstance(this)
+
+    }
+
+    private fun setupComponent() {
+        viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+
+        dataBase = UserDatabase.getInstance(this)
 
         val isLandingPageShown = SharedPrefManager.getIsLandingPageShown(this)
         Log.d(SplashActivity::class.simpleName,"LOGIN : ${isLandingPageShown}")
 
-
         val intentToHome = Intent(this, MainActivity::class.java)
-
 
         binding.ivRegister.setOnClickListener {
             val intentToRegister = Intent(this, RegisterActivity::class.java)
@@ -48,15 +51,41 @@ class LoginActivity  : AppCompatActivity() {
             Log.d(LoginActivity::class.simpleName,"Login Start")
             var username = binding.etUsername.text.toString()
             var password = binding.etPassword.text.toString()
-            GlobalScope.async {
-                var listUser = dataBase?.userDao()?.getAllUser()
-                Log.d(LoginActivity::class.simpleName,"List User: "+listUser.toString())
-                Log.d(LoginActivity::class.simpleName,"Username : "+ username)
-                val result = dataBase?.userDao()?.checkUser(username,password)
-                Log.d(this@LoginActivity::class.simpleName,"Result Check User :" + result.toString())
-                runOnUiThread {
-                    if(result != 0) {
-                        Toast.makeText(
+
+            //LOGIN WITH ORM
+//            GlobalScope.async {
+//                var listUser = dataBase?.userDao()?.getAllUser()
+//                Log.d(LoginActivity::class.simpleName,"List User: "+listUser.toString())
+//                Log.d(LoginActivity::class.simpleName,"Username : "+ username)
+//                val result = dataBase?.userDao()?.checkUser(username,password)
+//                Log.d(this@LoginActivity::class.simpleName,"Result Check User :" + result.toString())
+//                runOnUiThread {
+//                    if(result != 0) {
+//                        Toast.makeText(
+//                            this@LoginActivity,
+//                            "Login Validation Success for ${username}",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                        SharedPrefManager.setIsLandingPageShown(this@LoginActivity, false)
+//                        intentToHome.putExtra("DATA_USER_USERNAME", binding.etUsername.getText().toString())
+//                        //intentToHome.putExtra("DATA_USER_PASSWORD", binding.etPassword.getText().toString())
+//                        binding.etUsername.setText("")
+//                        binding.etPassword.setText("")
+//                        startActivity(intentToHome)
+//                    } else {
+//                        Toast.makeText(
+//                            this@LoginActivity,
+//                            "Login Validation Error ${username}",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+//                    }
+//                }
+//            }
+
+            var result = viewModel.doLogin(username,password)
+            Log.d(LoginActivity::class.simpleName,"Do Login Result: " + result.toString())
+            if(result.toString() != ""){
+                Toast.makeText(
                             this@LoginActivity,
                             "Login Validation Success for ${username}",
                             Toast.LENGTH_SHORT
@@ -67,19 +96,17 @@ class LoginActivity  : AppCompatActivity() {
                         binding.etUsername.setText("")
                         binding.etPassword.setText("")
                         startActivity(intentToHome)
-                    } else {
-                        Toast.makeText(
+            }
+            else{
+                Toast.makeText(
                             this@LoginActivity,
                             "Login Validation Error ${username}",
                             Toast.LENGTH_SHORT
                         ).show()
-                    }
-                }
             }
-        }
-    }
 
-    private fun setupComponent() {
-        viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(LoginViewModel::class.java)
+        }
+
+
     }
 }
