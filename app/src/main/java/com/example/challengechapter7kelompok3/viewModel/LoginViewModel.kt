@@ -22,14 +22,20 @@ class LoginViewModel : ViewModel() {
                     call: Call<ResponseLogin>,
                     response: Response<ResponseLogin>
                 ) {
-                    if (response.isSuccessful)
-                        responseData.postValue(Event("sukses Login"))
+                    if (response.isSuccessful) {
+                        var dataTemp = response.body()
+                        if (dataTemp?.status == "SUCCESS") {
+                            responseData.postValue(Event("sukses Login"))
+                        } else {
+                            responseDataError.postValue(Event(dataTemp?.data.toString()))
+                        }
+                    }
                     else
-                        responseDataError.postValue(Event("gagal login"))
+                        responseDataError.postValue(Event("Failed To Login "))
                 }
 
                 override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-                    responseDataError.postValue(Event("gagal login"))
+                    responseDataError.postValue(Event("Something Went Wrong With API Login"))
                 }
 
             })

@@ -28,8 +28,34 @@ class LoginActivity  : AppCompatActivity() {
 
 
         setupComponent()
+        observeValue()
 
 
+    }
+
+    private fun observeValue() {
+        viewModel.responseData.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                var tempUsername = binding.etUsername.text.toString()
+                val intentToHome = Intent(this, MainActivity::class.java)
+                                Toast.makeText(
+                            this@LoginActivity,
+                            "Login Validation Success for ${tempUsername}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        SharedPrefManager.setIsLandingPageShown(this@LoginActivity, false)
+                        intentToHome.putExtra("DATA_USER_USERNAME", binding.etUsername.getText().toString())
+                        //intentToHome.putExtra("DATA_USER_PASSWORD", binding.etPassword.getText().toString())
+                        binding.etUsername.setText("")
+                        binding.etPassword.setText("")
+                        startActivity(intentToHome)
+            }
+        }
+        viewModel.responseDataError.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupComponent() {
@@ -47,12 +73,13 @@ class LoginActivity  : AppCompatActivity() {
             startActivity(intentToRegister)
         }
 
-        binding.loginButton.setOnClickListener {
-            Log.d(LoginActivity::class.simpleName,"Login Start")
-            var username = binding.etUsername.text.toString()
-            var password = binding.etPassword.text.toString()
+        with(binding) {
+            binding.loginButton.setOnClickListener {
+                Log.d(LoginActivity::class.simpleName, "Login Start")
+                var username = binding.etUsername.text.toString()
+                var password = binding.etPassword.text.toString()
 
-            //LOGIN WITH ORM
+                //LOGIN WITH ORM
 //            GlobalScope.async {
 //                var listUser = dataBase?.userDao()?.getAllUser()
 //                Log.d(LoginActivity::class.simpleName,"List User: "+listUser.toString())
@@ -82,31 +109,11 @@ class LoginActivity  : AppCompatActivity() {
 //                }
 //            }
 
-            var result = viewModel.doLogin(username,password)
-            Log.d(LoginActivity::class.simpleName,"Do Login Result: " + result.toString())
-            if(result.toString() != ""){
-                Toast.makeText(
-                            this@LoginActivity,
-                            "Login Validation Success for ${username}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        SharedPrefManager.setIsLandingPageShown(this@LoginActivity, false)
-                        intentToHome.putExtra("DATA_USER_USERNAME", binding.etUsername.getText().toString())
-                        //intentToHome.putExtra("DATA_USER_PASSWORD", binding.etPassword.getText().toString())
-                        binding.etUsername.setText("")
-                        binding.etPassword.setText("")
-                        startActivity(intentToHome)
-            }
-            else{
-                Toast.makeText(
-                            this@LoginActivity,
-                            "Login Validation Error ${username}",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                var result = viewModel.doLogin(username, password)
+                Log.d(LoginActivity::class.simpleName, "Do Login Result: " + result.toString())
+
             }
 
         }
-
-
     }
 }
