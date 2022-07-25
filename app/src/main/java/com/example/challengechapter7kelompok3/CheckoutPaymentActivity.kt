@@ -4,6 +4,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -27,6 +30,7 @@ class CheckoutPaymentActivity : AppCompatActivity() {
     lateinit var viewPagerAdapter: CheckoutPaymentAdapter
     lateinit var imageList: List<Int>
     private lateinit var viewModel: CheckoutPaymentViewModel
+    private lateinit var btnBack : Button
     var database : CartDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,19 +39,24 @@ class CheckoutPaymentActivity : AppCompatActivity() {
         binding = ActivityCheckoutPaymentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         setupComponent()
 
         val tempUsername = intent.getStringExtra("DATA_USER_USERNAME")
         val tempTotalItem = intent.getStringExtra("DATA_TOTAL_ITEM")
         val tempTotalPayment = intent.getStringExtra("DATA_TOTAL_PAYMENT")
 
-        var intentToHome = Intent(this,MainActivity::class.java)
+
+
+        val intentToHome = Intent(this,MainActivity::class.java)
         database = CartDatabase.getInstance(this)
 
         setupComponent()
 
         binding.tvTotalPayment.setText(tempTotalPayment)
         binding.tvCustomer.setText(tempUsername)
+
+
 
         binding.btnCheckout.setOnClickListener {
             AlertDialog.Builder(this).setPositiveButton("Ya") { p0, p1 ->
@@ -81,7 +90,12 @@ class CheckoutPaymentActivity : AppCompatActivity() {
                 .show()
         }
 
-    }
+
+
+
+        }
+
+
     private fun setupComponent() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(CheckoutPaymentViewModel::class.java)
     }

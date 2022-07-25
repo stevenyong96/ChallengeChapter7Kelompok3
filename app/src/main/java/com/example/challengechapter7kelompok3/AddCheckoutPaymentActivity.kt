@@ -1,6 +1,7 @@
 package com.example.challengechapter7kelompok3
 
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.challengechapter7kelompok3.adapter.CheckoutPaymentAdapter
@@ -11,6 +12,7 @@ class AddCheckoutPaymentActivity : AppCompatActivity() {
         lateinit var viewPager: ViewPager
         lateinit var viewPagerAdapter: CheckoutPaymentAdapter
         lateinit var imageList: List<Int>
+
 
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
@@ -33,4 +35,3 @@ class AddCheckoutPaymentActivity : AppCompatActivity() {
     }
 
 
-}
