@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/idViewPager"
+        android:layout_width="398dp"
+        android:layout_height="555dp"
+        android:layout_centerInParent="true"
+        android:scrollbarSize="200dp" />
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/materialToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_red_dark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Payment Method"
+        app:titleMarginStart="60dp"
+        app:titleTextColor="@color/white" />
+
+    <ImageButton
+        android:id="@+id/ib_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/holo_red_dark"
+        android:clickable="true"
+        android:contentDescription="Tombol kembali"
+        android:src="@drawable/ic_baseline_back_arrow_24"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_AddPay"
+        android:layout_width="123dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="80dp"
+        android:text="ADD PAYMENT"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ti_name"
+        android:layout_width="344dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="115dp"
+        android:hint="Name" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ti_address"
+        android:layout_width="344dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="170dp"
+        android:hint="Address" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ti_phoneNumber"
+        android:layout_width="344dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="225dp"
+        android:hint="Phone Number"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/tv_paySelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="290dp"
+        android:text="Select Payment"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="550dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@android:color/holo_red_dark"
+        android:text="PAY"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>

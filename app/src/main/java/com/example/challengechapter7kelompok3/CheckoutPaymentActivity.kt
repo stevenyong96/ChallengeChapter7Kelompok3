@@ -7,6 +7,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewpager.widget.ViewPager
+import com.example.challengechapter7kelompok3.adapter.CheckoutPaymentAdapter
 import com.example.challengechapter7kelompok3.database.CartDatabase
 import com.example.challengechapter7kelompok3.databinding.ActivityCheckoutPaymentBinding
 import com.example.challengechapter7kelompok3.entity.Users
@@ -21,6 +23,9 @@ import java.text.NumberFormat
 class CheckoutPaymentActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityCheckoutPaymentBinding
+    lateinit var viewPager: ViewPager
+    lateinit var viewPagerAdapter: CheckoutPaymentAdapter
+    lateinit var imageList: List<Int>
     private lateinit var viewModel: CheckoutPaymentViewModel
     var database : CartDatabase? = null
 
