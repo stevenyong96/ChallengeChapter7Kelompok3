@@ -25,12 +25,8 @@ class LoginActivity  : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         setupComponent()
         observeValue()
-
-
     }
 
     private fun observeValue() {

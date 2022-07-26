@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.challengechapter7kelompok3.databinding.CardItemLinearBinding
 import com.example.challengechapter7kelompok3.model.DataMain
+import com.example.challengechapter7kelompok3.model.ResponseItem
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
@@ -15,11 +16,19 @@ fun concat(s1: String, s2: String): String {
     return s1 + s2
 }
 
+//class MainItemAdapter( val onItemStoreClick: (ResponseItem) -> Unit) : RecyclerView.Adapter<MainItemAdapter.ViewHolder>() {
+
 class MainItemAdapter(private val listItem: ArrayList<DataMain>, val onItemStoreClick: (DataMain) -> Unit) : RecyclerView.Adapter<MainItemAdapter.ViewHolder>() {
+        private val contentList =  mutableListOf<ResponseItem>()
+
+        open fun addContentList(newList: MutableList<ResponseItem>) {
+            contentList.clear()
+            contentList.addAll(newList)
+            notifyDataSetChanged()
+        }
 
         class ViewHolder(private val dataMainBinding : CardItemLinearBinding) : RecyclerView.ViewHolder(dataMainBinding.root) {
             fun bind(dataMain : DataMain) {
-
                 //step 4 implement recyclerview, bind data ke view
                 dataMainBinding.tvTitle.text = dataMain.itemDesc
                 val formatter: NumberFormat = DecimalFormat("#,###")
@@ -29,6 +38,17 @@ class MainItemAdapter(private val listItem: ArrayList<DataMain>, val onItemStore
                 Glide.with(itemView.context).load(dataMain.itemImage).into(dataMainBinding.ivCover)
                 dataMainBinding.cardItem.setCardBackgroundColor(Color.parseColor(dataMain.itemColor));
             }
+
+//            fun bind(item: ResponseItem) {
+//
+//                dataMainBinding.tvTitle.text = item.item_name
+//                val formatter: NumberFormat = DecimalFormat("#,###")
+//                val formattedNumber: String = formatter.format(item.item_price)
+//                val result = concat("Rp ",formattedNumber)
+//                dataMainBinding.tvPrice.text = result
+//                Glide.with(itemView.context).load(item.item_images1).into(dataMainBinding.ivCover)
+//                dataMainBinding.cardItem.setCardBackgroundColor(Color.parseColor(item.item_color))
+//            }
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -37,6 +57,8 @@ class MainItemAdapter(private val listItem: ArrayList<DataMain>, val onItemStore
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+//            val item : ResponseItem = contentList[position]
+
             val item : DataMain = listItem[position]
 
 //            val descString = item.itemDesc
@@ -63,5 +85,6 @@ class MainItemAdapter(private val listItem: ArrayList<DataMain>, val onItemStore
 
         override fun getItemCount(): Int {
             return listItem.size
+//              return contentList.size
         }
     }

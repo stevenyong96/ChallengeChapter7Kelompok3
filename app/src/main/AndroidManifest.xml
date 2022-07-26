@@ -35,6 +35,8 @@
             android:theme="@style/AppTheme.Splash"/>
         <activity android:name=".RegisterActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/AppTheme.Splash"/>
         <activity android:name=".CartTokpeeActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/AppTheme.Splash"/>
+        <activity android:name=".AddCheckoutPaymentActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/AppTheme.Splash"/>
+        <activity android:name=".ItemDetailVideoActivity" android:windowSoftInputMode="adjustResize" android:theme="@style/AppTheme.Splash"/>
     </application>
 
 </manifest>

@@ -57,6 +57,19 @@ class CheckoutPaymentActivity : AppCompatActivity() {
         binding.tvCustomer.setText(tempUsername)
 
 
+        binding.ivBackBtn.setOnClickListener {
+            val intentToHome = Intent(this,MainActivity::class.java)
+            startActivity(intentToHome)
+        }
+
+        binding.tvAdd.setOnClickListener {
+            val intentToAddCheckout = Intent(this,AddCheckoutPaymentActivity::class.java)
+            intentToAddCheckout.putExtra("DATA_USER_USERNAME", tempUsername)
+            intentToAddCheckout.putExtra("DATA_TOTAL_ITEM", tempTotalItem)
+            intentToAddCheckout.putExtra("DATA_TOTAL_PAYMENT", tempTotalPayment)
+            startActivity(intentToAddCheckout)
+        }
+
 
         binding.btnCheckout.setOnClickListener {
             AlertDialog.Builder(this).setPositiveButton("Ya") { p0, p1 ->
