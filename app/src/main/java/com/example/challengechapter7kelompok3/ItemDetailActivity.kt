@@ -9,6 +9,7 @@ import android.media.AudioAttributes
 import android.media.AudioManager
 import android.media.SoundPool
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -137,17 +138,31 @@ class ItemDetailActivity : AppCompatActivity() {
 //        Glide.with(this).load(itemImage).into(bindingFrag2.ivImage)
 //        Glide.with(this).load(itemImage).into(bindingFrag3.ivImage)
 
-        binding.ivVideo.setOnClickListener {
-            val intentToVideo = Intent(this,ItemDetailVideoActivity::class.java)
-            intentToVideo.putExtra("KEY_ITEM_NAME", itemName)
-            intentToVideo.putExtra("KEY_ITEM_PRICE", itemPrice)
-            intentToVideo.putExtra("KEY_ITEM_COLOR", itemColor)
-            intentToVideo.putExtra("KEY_ITEM_IMAGE", itemImage)
-            intentToVideo.putExtra("KEY_ITEM_IMAGE2", itemImage2)
-            intentToVideo.putExtra("KEY_ITEM_IMAGE3", itemImage3)
-            intentToVideo.putExtra("DATA_USER_USERNAME",tempUsername)
-            startActivity(intentToVideo)
+        if(itemName == "Adidas NMD1")
+        {
+            binding.ivVideo.setOnClickListener {
+                val intentToVideo = Intent(this,ItemDetailVideoActivity::class.java)
+                intentToVideo.putExtra("KEY_ITEM_NAME", itemName)
+                intentToVideo.putExtra("KEY_ITEM_PRICE", itemPrice)
+                intentToVideo.putExtra("KEY_ITEM_COLOR", itemColor)
+                intentToVideo.putExtra("KEY_ITEM_IMAGE", itemImage)
+                intentToVideo.putExtra("KEY_ITEM_IMAGE2", itemImage2)
+                intentToVideo.putExtra("KEY_ITEM_IMAGE3", itemImage3)
+                intentToVideo.putExtra("DATA_USER_USERNAME",tempUsername)
+                startActivity(intentToVideo)
+            }
         }
+        else{
+            binding.ivVideo.setOnClickListener {
+                Toast.makeText(
+                    this@ItemDetailActivity,
+                    "Video Tidak Tersedia",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+
 
         binding.ivItemDetailBack.setOnClickListener {
             var intentToHome = Intent(this,MainActivity::class.java)

@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity()  {
         adapter = MainItemApiAdapter(){
             Toast.makeText(this, "Item di click : ${it.item_name}", Toast.LENGTH_SHORT).show()
             var intentToItemDetail= Intent(this,ItemDetailActivity::class.java)
-            intentToItemDetail.putExtra("KEY_ITEM_NAME", it.item_desc)
+            intentToItemDetail.putExtra("KEY_ITEM_NAME", it.item_name)
             intentToItemDetail.putExtra("KEY_ITEM_PRICE", it.item_price.toString())
             intentToItemDetail.putExtra("KEY_ITEM_COLOR", it.item_color)
             intentToItemDetail.putExtra("KEY_ITEM_IMAGE", it.item_images1)
