@@ -2,7 +2,7 @@ package com.example.challengechapter7kelompok3.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ResponseItem(
+data class ResponseGetItem(
     @SerializedName("status")
     val status: String,
     @SerializedName("data")

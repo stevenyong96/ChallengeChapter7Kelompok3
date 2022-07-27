@@ -1,14 +1,13 @@
 package com.example.challengechapter7kelompok3.adapter
 
 import android.graphics.Color
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.challengechapter7kelompok3.databinding.CardItemLinearBinding
 import com.example.challengechapter7kelompok3.model.DataMain
-import com.example.challengechapter7kelompok3.model.ResponseItem
+import com.example.challengechapter7kelompok3.model.ResponseGetItem
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
@@ -19,9 +18,9 @@ fun concat(s1: String, s2: String): String {
 //class MainItemAdapter( val onItemStoreClick: (ResponseItem) -> Unit) : RecyclerView.Adapter<MainItemAdapter.ViewHolder>() {
 
 class MainItemAdapter(private val listItem: ArrayList<DataMain>, val onItemStoreClick: (DataMain) -> Unit) : RecyclerView.Adapter<MainItemAdapter.ViewHolder>() {
-        private val contentList =  mutableListOf<ResponseItem>()
+        private val contentList =  mutableListOf<ResponseGetItem>()
 
-        open fun addContentList(newList: MutableList<ResponseItem>) {
+        open fun addContentList(newList: MutableList<ResponseGetItem>) {
             contentList.clear()
             contentList.addAll(newList)
             notifyDataSetChanged()

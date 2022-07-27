@@ -29,9 +29,9 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_width="304dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/nunito_sans_bold"
                 android:lines="2"
                 android:text="@string/item_desc"
@@ -40,15 +40,14 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/tv_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="323dp"
+                android:layout_height="37dp"
                 android:fontFamily="@font/nunito_sans_bold"
                 android:gravity="right"
                 android:lines="1"

@@ -5,14 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.challengechapter7kelompok3.adapter.MainItemAdapter
+import com.example.challengechapter7kelompok3.adapter.MainItemApiAdapter
 import com.example.challengechapter7kelompok3.databinding.*
-import com.example.challengechapter7kelompok3.fragment.ItemDetailPage1Fragment
 import com.example.challengechapter7kelompok3.model.DataMain
 import com.example.challengechapter7kelompok3.viewModel.MainViewModel
 
@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity()  {
     private lateinit var bindingItemDetail : ActivityItemDetailBinding
     private lateinit var bindingAppBarMain : AppBarMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var adapter: MainItemAdapter
+    private lateinit var adapter: MainItemApiAdapter
 
  @SuppressLint("ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,24 +75,39 @@ class MainActivity : AppCompatActivity()  {
     private fun setupComponent() {
         viewModel = ViewModelProvider(this, defaultViewModelProviderFactory).get(MainViewModel::class.java)
 
-        var result = viewModel.getContentList()
-        Log.d(MainActivity::class.simpleName, "GetContentList Result: " + result.toString())
+//        var result = viewModel.getContentList()
+//        Log.d(MainActivity::class.simpleName, "GetContentList Result: " + result.toString())
 
         val tempUsername = intent.getStringExtra("DATA_USER_USERNAME")
 
-        binding.rvListItem.adapter = MainItemAdapter(getDummyData()) {
-            Toast.makeText(this, "Item di click : ${it.itemDesc}", Toast.LENGTH_SHORT).show()
+//        binding.rvListItem.adapter = MainItemAdapter(getDummyData()) {
+//            Toast.makeText(this, "Item di click : ${it.itemDesc}", Toast.LENGTH_SHORT).show()
+//            var intentToItemDetail= Intent(this,ItemDetailActivity::class.java)
+//            intentToItemDetail.putExtra("KEY_ITEM_NAME", it.itemDesc)
+//            intentToItemDetail.putExtra("KEY_ITEM_PRICE", it.itemPrice.toString())
+//            intentToItemDetail.putExtra("KEY_ITEM_COLOR", it.itemColor)
+//            intentToItemDetail.putExtra("KEY_ITEM_IMAGE", it.itemImage)
+//            intentToItemDetail.putExtra("KEY_ITEM_IMAGE2", it.itemImage2)
+//            intentToItemDetail.putExtra("KEY_ITEM_IMAGE3", it.itemImages3)
+//            intentToItemDetail.putExtra("DATA_USER_USERNAME",tempUsername)
+//            startActivity(intentToItemDetail)
+//        }
+
+        adapter = MainItemApiAdapter(){
+            Toast.makeText(this, "Item di click : ${it.item_name}", Toast.LENGTH_SHORT).show()
             var intentToItemDetail= Intent(this,ItemDetailActivity::class.java)
-            intentToItemDetail.putExtra("KEY_ITEM_NAME", it.itemDesc)
-            intentToItemDetail.putExtra("KEY_ITEM_PRICE", it.itemPrice.toString())
-            intentToItemDetail.putExtra("KEY_ITEM_COLOR", it.itemColor)
-            intentToItemDetail.putExtra("KEY_ITEM_IMAGE", it.itemImage)
-            intentToItemDetail.putExtra("KEY_ITEM_IMAGE2", it.itemImage2)
-            intentToItemDetail.putExtra("KEY_ITEM_IMAGE3", it.itemImages3)
+            intentToItemDetail.putExtra("KEY_ITEM_NAME", it.item_desc)
+            intentToItemDetail.putExtra("KEY_ITEM_PRICE", it.item_price.toString())
+            intentToItemDetail.putExtra("KEY_ITEM_COLOR", it.item_color)
+            intentToItemDetail.putExtra("KEY_ITEM_IMAGE", it.item_images1)
+            intentToItemDetail.putExtra("KEY_ITEM_IMAGE2", it.item_images2)
+            intentToItemDetail.putExtra("KEY_ITEM_IMAGE3", it.item_images3)
             intentToItemDetail.putExtra("DATA_USER_USERNAME",tempUsername)
             startActivity(intentToItemDetail)
         }
         binding.rvListItem.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvListItem.adapter = adapter
+
 
         binding.ivNavMenuBar.setOnClickListener {
             SharedPrefManager.setIsLandingPageShown(this,true)
@@ -106,11 +121,44 @@ class MainActivity : AppCompatActivity()  {
             startActivity(intentToCart)
         }
 
+        binding.searchView.setQueryHint("Search Your Item")
+
+        binding.searchView.setOnSearchClickListener(View.OnClickListener {
+            //do what you want when search view expended
+            binding.rvListItem.visibility = View.INVISIBLE
+        })
+        binding.searchView.setOnCloseListener(SearchView.OnCloseListener {
+            //do what you want  searchview is not expanded
+            binding.rvListItem.visibility = View.VISIBLE
+            false
+        })
+
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                binding.rvListItem.visibility = View.INVISIBLE
+                if(newText == "")
+                {
+                    viewModel.getContentList()
+                    binding.rvListItem.visibility = View.VISIBLE
+                }
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                viewModel.getSearchContentList(query)
+                binding.rvListItem.visibility = View.VISIBLE
+                return false
+            }
+
+
+        })
+
     }
+
 
     private fun observeValue() {
         viewModel.contentItem.observe(this) {
-            Log.d(MainActivity::class.simpleName, "api observe")
             binding.pbLoading.visibility = View.GONE
             adapter.addContentList(it.toMutableList())
 
@@ -119,9 +167,10 @@ class MainActivity : AppCompatActivity()  {
         viewModel.errorMessage.observe(this) { event ->
             binding.pbLoading.visibility = View.GONE
 
-//            event.getContentIfNotHandled()?.let {
-//                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
-//            }
+            event.getContentIfNotHandled()?.let {
+                Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                Log.d(MainActivity::class.simpleName, "GetContentList Result: " + it.toString())
+            }
 
         }
     }
@@ -129,8 +178,11 @@ class MainActivity : AppCompatActivity()  {
     override fun onStart() {
         super.onStart()
 
-//        viewModel.getContentList()
-//        binding.pbLoading.visibility = View.VISIBLE
+        binding.searchView.setQuery("", false);
+        binding.searchView.clearFocus();
+        viewModel.getContentList()
+        binding.pbLoading.visibility = View.VISIBLE
+        binding.rvListItem.visibility = View.VISIBLE
 
     }
 
